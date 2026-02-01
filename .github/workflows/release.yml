@@ -39,11 +39,15 @@ jobs:
       - name: Build plugin
         run: pnpm run build
       
-      - name: Determine version tag
+      - name: Determine version tag and create if needed
         id: version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "tag=v${{ inputs.version }}" >> $GITHUB_OUTPUT
+            TAG="v${{ inputs.version }}"
+            # Create tag if it doesn't exist
+            git tag "$TAG" || true
+            git push origin "$TAG" || true
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
             echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           fi
