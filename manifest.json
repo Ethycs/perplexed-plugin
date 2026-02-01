@@ -1,7 +1,7 @@
 {
 	"id": "perplexed",
 	"name": "Perplexed",
-	"version": "0.0.0.1",
+	"version": "1.0.0",
 	"minAppVersion": "0.0.0.1",
 	"description": "A plugin for Obsidian that allows you to generate source-cited content using AI using Perplexity and Perplexica.",
 	"author": "The Lossless Group",
