@@ -1,4 +1,7 @@
 ![Perplexed: An Obsidian Plugin for Perplexity and Perplexica](https://i.imgur.com/MVOK3rk.png)
+
+[![CI](https://github.com/Ethycs/perplexed-plugin/workflows/CI/badge.svg)](https://github.com/Ethycs/perplexed-plugin/actions/workflows/ci.yml)
+
 # Perplexed: AI Content Generation for Obsidian
 
 **Perplexed** is an Obsidian plugin that enables AI-powered content generation with source citations using [Perplexity](https://www.perplexity.ai/) and [Perplexica](https://perplexica.io/). This plugin brings research-grade AI capabilities directly into your Obsidian workspace, allowing you to generate well-cited content for your notes.
@@ -321,18 +324,62 @@ perplexed-plugin/
 
 2. **Install Dependencies**:
    ```bash
-pnpm install
+   pnpm install
    ```
 
 3. **Build the Plugin**:
    ```bash
-pnpm build
+   pnpm build
    ```
 
 4. **Development Mode**:
    ```bash
-pnpm dev
-```
+   pnpm dev
+   ```
+
+### CI/CD Process
+
+The project uses GitHub Actions for automated building, testing, and releasing:
+
+#### Continuous Integration (CI)
+
+- **Trigger**: Runs automatically on every push and pull request
+- **Node.js Versions**: Tests on Node.js 18.x and 20.x
+- **Build Process**:
+  1. Checkout code
+  2. Setup pnpm with dependency caching
+  3. Install dependencies
+  4. Run TypeScript type checking (`tsc -noEmit`)
+  5. Build the plugin (`pnpm build`)
+  6. Upload build artifacts (main.js, manifest.json, styles.css)
+- **Status**: Check the CI badge at the top of this README
+
+#### Automated Releases
+
+Releases are automatically created when you push a version tag:
+
+1. **Update Version**:
+   ```bash
+   # Update version in package.json and manifest.json
+   npm version patch  # or minor, or major
+   ```
+
+2. **Create and Push Tag**:
+   ```bash
+   git push origin main
+   git push origin --tags
+   ```
+
+3. **Automated Release Process**:
+   - GitHub Actions detects the version tag (e.g., `v0.0.2`)
+   - Builds the plugin automatically
+   - Creates a GitHub Release with the tag
+   - Attaches build artifacts (main.js, manifest.json, styles.css)
+   - Generates release notes from commits
+
+4. **Download Release**:
+   - Users can download the latest release from the [Releases page](https://github.com/Ethycs/perplexed-plugin/releases)
+   - Each release includes all necessary files for installation
 
 ### Testing Your Plugin
 
@@ -504,7 +551,7 @@ esbuild.build({
    - Include JSDoc comments for public methods
 
 3. **Test Your Changes**:
-```bash
+   ```bash
    pnpm build
    # Test in Obsidian
    ```
@@ -513,6 +560,37 @@ esbuild.build({
    - Include clear description of changes
    - Add tests if applicable
    - Update documentation
+   - CI will automatically run to validate your changes
+
+### Creating Releases
+
+**For Maintainers**: To create a new release:
+
+1. **Update Version**:
+   ```bash
+   npm version patch  # For bug fixes (0.0.1 -> 0.0.2)
+   npm version minor  # For new features (0.0.1 -> 0.1.0)
+   npm version major  # For breaking changes (0.0.1 -> 1.0.0)
+   ```
+   This automatically updates `package.json`, `manifest.json`, and `versions.json`.
+
+2. **Push Changes and Tags**:
+   ```bash
+   git push origin main
+   git push origin --tags
+   ```
+
+3. **Automated Process**:
+   - GitHub Actions will automatically:
+     - Build the plugin
+     - Create a GitHub Release
+     - Attach build artifacts
+     - Generate release notes
+   
+4. **Verify Release**:
+   - Check the [Releases page](https://github.com/Ethycs/perplexed-plugin/releases)
+   - Verify all files are attached (main.js, manifest.json, styles.css)
+   - Review generated release notes
 
 ### Code Style Guidelines
 
